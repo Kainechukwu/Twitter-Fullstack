@@ -1,14 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../Models/users.js");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const passportLocalMongoose = require("passport-local-mongoose");
+const passport = require("passport");
 
 
-// router.use(function(req, res, next) {
-//   console.log(reg.url, "@", Date.now());
-//   next();
-// })
+
 
 router.route("/")
   .get(function(req, res) {
@@ -17,33 +14,16 @@ router.route("/")
 
   .post(function(req, res) {
     console.log(req.body);
-    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-      const user = new User({
-        name: {
-          firstName: req.body.firstname,
-          lastName: req.body.lastname
-        },
-        email: req.body.email,
-        birthday: {
-          month: req.body.month,
-          day: req.body.day,
-          year: req.body.year
-        },
-        password: hash
-      });
-
-      user.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          // res.send("data received from " + req.body.firstname + " " + req.body.lastname + " and saved successfully");
-          res.send(`data received from ${req.body.firstname} ${req.body.lastname} and saved successfully`);
-        }
-      })
-    });
-
-
-
+    User.register({username: req.body.username, year: req.body.year, day: req.body.day, month: req.body.month, firstname: req.body.firstname, lastname: req.body.lastname}, req.body.password, function(err, user){
+      if(err){
+        console.log(err);
+        res.send("You need to reregister");
+      } else {
+        passport.authenticate("local")(req, res, function(){
+          res.send("This is your userhomepage");
+        })
+      }
+    })
 
 
   });
