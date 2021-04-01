@@ -19,6 +19,7 @@ const app = express();
 const User = require("./Models/users.js");
 
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(session({
