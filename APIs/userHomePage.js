@@ -6,17 +6,20 @@ const passport = require("passport");
 const passportLocal = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 
-// const app = express();
-// const bodyParser = require("body-parser");
-// app.use(bodyParser.urlencoded({extended: true}));
+
 
 router.route("/")
   .get(function(req, res) {
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
       res.send("This is the user home page");
+      // console.log(req.user.id);
     } else {
       res.send("You need to login");
     }
+  })
+
+  .post(function (req, res){
+    console.log(req.user.id);
   });
 
-  module.exports = router;
+module.exports = router;

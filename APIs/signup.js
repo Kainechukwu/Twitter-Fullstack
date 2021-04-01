@@ -20,7 +20,7 @@ router.route("/")
         res.send("You need to reregister");
       } else {
         passport.authenticate("local")(req, res, function(){
-          res.send("This is your userhomepage");
+          res.redirect("/userhomepage");
         })
       }
     })

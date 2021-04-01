@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -9,7 +10,11 @@ const session = require("express-session");
 const signupAPIRouter = require("./APIs/signup.js");
 const loginRouter = require("./APIs/login");
 const userHomeRouter = require("./APIs/userHomePage");
-// require("./passportConfig")(passport);
+const logoutRouter = require("./APIs/logout");
+const PORT = process.env.PORT || 3000;
+
+console.log(process.env.PORT)
+
 const app = express();
 const User = require("./Models/users.js");
 
@@ -38,13 +43,14 @@ passport.deserializeUser(User.deserializeUser());
 app.use("/signup", signupAPIRouter);
 app.use("/login", loginRouter);
 app.use("/userHomePage", userHomeRouter);
+app.use("/logout", logoutRouter);
 
 app.get("/", function(req, res){
   res.send("This is the home page");
 });
 
-app.listen(3000, function(err) {
+app.listen(PORT, function(err) {
   if (!err) {
-    console.log("Wormhole active on port 3000");
+    console.log(`Wormhole active on port ${PORT}`);
   }
 });
