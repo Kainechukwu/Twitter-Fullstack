@@ -30,20 +30,63 @@ router.route("/")
   })
 
   .post(function (req, res){
-    const time = new Date().toLocaleTimeString();
-    const tweet = new Tweet ({
-      _id: req.body._id,
-      tweet: req.body.tweet,
-      time: time//find how long ago a tweet was made
-    });
+    // const time = new Date().toLocaleTimeString();
+    // const tweet = new Tweet ({
+    //   _id: req.body._id,
+    //   tweet: req.body.tweet,
+    //   time: time//find how long ago a tweet was made
+    // });
+    //
+    // tweet.save(function (err) {
+    //   if(err) {
+    //     console.log(err);
+    //   } else {
+    //     res.redirect("/userHomePage");
+    //   }
+    // });
 
-    tweet.save(function (err) {
-      if(err) {
-        console.log(err);
+    Tweet.findOne({
+      user_id: req.body.user_id
+    }, function(err, foundDoc) {
+      const time = new Date().toLocaleTimeString();
+      if (!foundDoc) {
+        const tweet = new Tweet({
+          user_id: req.body.user_id,
+          userTweets: [{
+            _id: req.body._id,
+            tweet: req.body.tweet,
+            time: time
+          }] //find how long ago a tweet was made
+        });
+
+        tweet.save(function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.redirect("/userHomePage");
+          }
+        });
+
       } else {
-        res.redirect("/userHomePage");
+        foundDoc.userTweets.push({
+          _id: req.body._id,
+          tweet: req.body.tweet,
+          time: time
+
+        });
+
+        foundDoc.save(function(err){
+          if(err){
+            console.log(err);
+          } else {
+            res.redirect("/userHomePage");
+          }
+        });
       }
-    });
+
+
+
+    })
   });
 
 module.exports = router;
