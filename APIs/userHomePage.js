@@ -6,6 +6,7 @@ const passport = require("passport");
 const passportLocal = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const Tweet = require("../Models/tweets");
+const ObjectId = mongoose.Types.ObjectId;
 
 
 
@@ -18,9 +19,10 @@ router.route("/")
         if(err) {
           console.log(err);
         } else {
-          foundTweets.forEach(function(tweet){
-            console.log(tweet);
-          });
+          // foundTweets.forEach(function(tweet){
+          //   console.log(tweet);
+          // });
+          console.log("tweets are displayed here");
         }
       });
       // console.log(req.user.id);
@@ -53,7 +55,7 @@ router.route("/")
         const tweet = new Tweet({
           user_id: req.body.user_id,
           userTweets: [{
-            _id: req.body._id,
+            _id: new ObjectId,
             tweet: req.body.tweet,
             time: time
           }] //find how long ago a tweet was made
@@ -69,7 +71,7 @@ router.route("/")
 
       } else {
         foundDoc.userTweets.push({
-          _id: req.body._id,
+          _id: new ObjectId,
           tweet: req.body.tweet,
           time: time
 
@@ -79,6 +81,7 @@ router.route("/")
           if(err){
             console.log(err);
           } else {
+            console.log(foundDoc.userTweets);
             res.redirect("/userHomePage");
           }
         });
