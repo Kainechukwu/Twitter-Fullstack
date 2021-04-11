@@ -11,6 +11,7 @@ const signupAPIRouter = require("./APIs/signup.js");
 const loginRouter = require("./APIs/login");
 const userHomeRouter = require("./APIs/userHomePage");
 const logoutRouter = require("./APIs/logout");
+const followRouter = require("./APIs/following")
 const PORT = process.env.PORT || 3000;
 
 
@@ -46,6 +47,7 @@ app.use("/signup", signupAPIRouter);
 app.use("/login", loginRouter);
 app.use("/userHomePage", userHomeRouter);
 app.use("/logout", logoutRouter);
+app.use("/userHomePage/follow", followRouter);
 
 app.get("/", function(req, res){
   res.send("This is the home page");

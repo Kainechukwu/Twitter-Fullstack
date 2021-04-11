@@ -7,6 +7,7 @@ const passportLocal = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const Tweet = require("../Models/tweets");
 const ObjectId = mongoose.Types.ObjectId;
+const paginate = require("../Middleware/pagination");
 
 
 
@@ -15,8 +16,8 @@ router.route("/")
     if (req.isAuthenticated()) {
       res.send("This is the user home page");
 
-      Tweet.find({}, function(err, foundTweets){
-        if(err) {
+      Tweet.find({}, function(err, foundTweets) {
+        if (err) {
           console.log(err);
         } else {
           // foundTweets.forEach(function(tweet){
@@ -31,65 +32,26 @@ router.route("/")
     }
   })
 
-  .post(function (req, res){
-    // const time = new Date().toLocaleTimeString();
-    // const tweet = new Tweet ({
-    //   _id: req.body._id,
-    //   tweet: req.body.tweet,
-    //   time: time//find how long ago a tweet was made
-    // });
-    //
-    // tweet.save(function (err) {
-    //   if(err) {
-    //     console.log(err);
-    //   } else {
-    //     res.redirect("/userHomePage");
-    //   }
-    // });
+  .post(function(req, res) {
 
-    Tweet.findOne({
-      user_id: req.body.user_id
-    }, function(err, foundDoc) {
-      const time = new Date().toLocaleTimeString();
-      if (!foundDoc) {
-        const tweet = new Tweet({
-          user_id: req.body.user_id,
-          userTweets: [{
-            _id: new ObjectId,
-            tweet: req.body.tweet,
-            time: time
-          }] //find how long ago a tweet was made
-        });
 
-        tweet.save(function(err) {
-          if (err) {
-            console.log(err);
-          } else {
-            res.redirect("/userHomePage");
-          }
-        });
 
+    const time = new Date().toLocaleTimeString();
+
+    const tweet = new Tweet({
+      user_id: req.body.user_id,
+      tweet: req.body.tweet,
+      time: time //find how long ago a tweet was made
+    });
+
+    tweet.save(function(err) {
+      if (err) {
+        console.log(err);
       } else {
-        foundDoc.userTweets.push({
-          _id: new ObjectId,
-          tweet: req.body.tweet,
-          time: time
-
-        });
-
-        foundDoc.save(function(err){
-          if(err){
-            console.log(err);
-          } else {
-            console.log(foundDoc.userTweets);
-            res.redirect("/userHomePage");
-          }
-        });
+        res.redirect("/userHomePage");
       }
+    });
 
-
-
-    })
-  });
+  })
 
 module.exports = router;
