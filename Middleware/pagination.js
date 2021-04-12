@@ -4,7 +4,7 @@ function paginate(model) {
   return async (req, res, next) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
-    console.log(req)
+    // console.log(req)
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
@@ -13,23 +13,25 @@ function paginate(model) {
 
 
 
-    if (endIndex < await model.countDocuments().exec()) {
+    if (endIndex < (await model.countDocuments().exec())) {
       results.next = {
         page: page + 1,
         limit: limit
-      }
+      };
     }
 
     if (startIndex > 0) {
       results.prev = {
         page: page - 1,
         limit: limit
-      }
+      };
     }
 
     try {
-      const followers = await Following.find({user_id: req.user.id}, "following_id").exec();
-      results.resArray = await model.find({user_id: {$in: [req.user.id, ...followers]}}, "tweet").limit(limit).skip(startIndex).exec();
+      const following = await Following.find({user_id: req.user.id}, "following_id").exec();
+      console.log(following.map(obj => obj.following_id));
+      console.log(req.user.id);
+      results.resArray = await model.find({user_id: {$in: [req.user.id, ...following.map(obj => obj.following_id)]}}, "tweet").limit(limit).skip(startIndex);//.exec();
       res.paginatedResults = results;
       next();
 
