@@ -1,7 +1,10 @@
+const Following = require("../Models/following");
+
 function paginate(model) {
   return async (req, res, next) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
+    console.log(req)
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
@@ -10,14 +13,14 @@ function paginate(model) {
 
 
 
-    if (endIndex < await model.countDocuments().exec()){
+    if (endIndex < await model.countDocuments().exec()) {
       results.next = {
         page: page + 1,
         limit: limit
       }
     }
 
-    if(startIndex > 0){
+    if (startIndex > 0) {
       results.prev = {
         page: page - 1,
         limit: limit
@@ -25,17 +28,21 @@ function paginate(model) {
     }
 
     try {
-      results.resArray = await model.find().limit(limit).skip(startIndex).exec()
+      const followers = await Following.find({user_id: req.user.id}, "following_id").exec();
+      results.resArray = await model.find({user_id: {$in: [req.user.id, ...followers]}}, "tweet").limit(limit).skip(startIndex).exec();
+      res.paginatedResults = results;
       next();
 
     } catch (err) {
-      res.status(500).json({message: err.message});
+      res.status(500).json({
+        message: err.message
+      });
     }
 
     // model.slice(startIndex, endIndex);
 
 
-    res.paginatedResults = results;
+
   }
 
 }
