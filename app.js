@@ -12,6 +12,8 @@ const loginRouter = require("./APIs/login");
 const userHomeRouter = require("./APIs/userHomePage");
 const logoutRouter = require("./APIs/logout");
 const followRouter = require("./APIs/following")
+const deleteTweet = require("./APIs/delete");
+const unfollowRouter = require("./APIs/unfollow");
 const PORT = process.env.PORT || 3000;
 
 
@@ -48,6 +50,8 @@ app.use("/login", loginRouter);
 app.use("/userHomePage", userHomeRouter);
 app.use("/logout", logoutRouter);
 app.use("/userHomePage/follow", followRouter);
+app.use("/userHomePage/deleteTweet", deleteTweet);
+app.use("/unfollow", unfollowRouter);
 
 app.get("/", function(req, res){
   res.send("This is the home page");

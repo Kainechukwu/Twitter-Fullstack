@@ -14,12 +14,25 @@ router.route("/")
 
   .post(function(req, res) {
     console.log(req.body);
-    User.register({username: req.body.username, year: req.body.year, day: req.body.day, month: req.body.month, firstname: req.body.firstname, lastname: req.body.lastname}, req.body.password, function(err, user){
-      if(err){
+    const {
+      username
+    } = req.body;
+    console.log(username);
+
+    const newUser = new User({
+      username: req.body.username,
+      year: req.body.year,
+      day: req.body.day,
+      month: req.body.month,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname
+    });
+    User.register(newUser, req.body.password, function(err, user) {
+      if (err) {
         console.log(err);
         res.send("You need to reregister");
       } else {
-        passport.authenticate("local")(req, res, function(){
+        passport.authenticate("local")(req, res, function() {
           res.redirect("/userhomepage");
         })
       }
