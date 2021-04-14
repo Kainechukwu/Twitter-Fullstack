@@ -16,7 +16,7 @@ router.route("/")
     if (req.isAuthenticated()) {
       res.send("This is the user home page");
       console.log(req.query.page)
-      //
+      // //
       console.log(res.paginatedResults);
 
       // Tweet.find({}, function(err, foundTweets) {
@@ -29,7 +29,7 @@ router.route("/")
       //     console.log("tweets are displayed here");
       //   }
       // });
-      console.log(req.user.id);
+      // console.log(req.user.id);
     } else {
       res.send("You need to login");
     }

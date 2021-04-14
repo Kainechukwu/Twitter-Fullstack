@@ -6,9 +6,13 @@ const tweetSchema = new mongoose.Schema({
 
   user_id: String,
     tweet: String,
-    time: String
+    time : { type : Date, default: Date.now }
 
-});
+    // time: String
+
+}
+// ,{ timestamps: { createdAt: 'created_at' } }
+);
 
 
 module.exports = mongoose.model("Tweet", tweetSchema);

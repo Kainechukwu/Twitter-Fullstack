@@ -13,27 +13,31 @@ router.route("/")
   })
 
   .post(function(req, res) {
-    console.log(req.body);
-    const {
-      username
-    } = req.body;
-    console.log(username);
-
+    // console.log(req.body);
+    // const {
+    //   username
+    // } = req.body;
+    // console.log(username);
+    //
     const newUser = new User({
       username: req.body.username,
       year: req.body.year,
       day: req.body.day,
       month: req.body.month,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname
+      firstName: req.body.firstname,
+      lastName: req.body.lastname
     });
+
+
+
+
     User.register(newUser, req.body.password, function(err, user) {
       if (err) {
         console.log(err);
         res.send("You need to reregister");
       } else {
         passport.authenticate("local")(req, res, function() {
-          res.redirect("/userhomepage");
+          res.redirect("/userhomepage?page=1&limit=3");
         })
       }
     })
