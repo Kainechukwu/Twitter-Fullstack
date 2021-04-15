@@ -5,13 +5,14 @@ const year = new Date().getFullYear();
 const tweetSchema = new mongoose.Schema({
 
   user_id: String,
-    tweet: String,
-    time : { type : Date, default: Date.now }
+    tweet: String
+    // ,
+    // time : { type : Date, default: Date.now }
 
     // time: String
 
 }
-// ,{ timestamps: { createdAt: 'created_at' } }
+,{ timestamps: { createdAt: 'created_at' } }
 );
 
 

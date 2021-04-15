@@ -31,7 +31,7 @@ router.route("/")
         console.log(err);
       } else {
         passport.authenticate("local")(req, res, function(){
-          res.redirect("/userhomepage?page=1&limit=3");
+          res.redirect("/userHomePage?page=1&limit=3");
           // res.redirect("localhost:4000/userhomepage/?");
           // console.log(req.user._id)
 
