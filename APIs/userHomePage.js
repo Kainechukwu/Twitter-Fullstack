@@ -15,9 +15,10 @@ router.route("/")
   .get(paginate(Tweet), function(req, res) {
     if (req.isAuthenticated()) {
       res.send("This is the user home page");
-      console.log(req.query.page)
-      // //
+      // console.log(req.query.page)
+      // // //
       console.log(res.paginatedResults);
+      console.log(`Sucessful login`)
 
       // Tweet.find({}, function(err, foundTweets) {
       //   if (err) {
@@ -33,29 +34,8 @@ router.route("/")
     } else {
       res.send("You need to login");
     }
-  })
-
-  .post(function(req, res) {
+  });
 
 
-
-    // const time = new Date().toLocaleTimeString();
-
-    const tweet = new Tweet({
-      user_id: req.body.user_id,
-      tweet: req.body.tweet
-      // ,
-      // time: time //find how long ago a tweet was made
-    });
-
-    tweet.save(function(err) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.redirect("/userHomePage?page=1&limit=3");
-      }
-    });
-
-  })
 
 module.exports = router;
