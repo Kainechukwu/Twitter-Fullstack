@@ -9,9 +9,6 @@ const saltRounds = 10;
 
 
 
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
 
 
 router.route("/")
@@ -20,12 +17,16 @@ router.route("/")
   })
 
   .post(function(req, res, next) {
-    console.log(req.user);
+   
+    console.log("body: " + req.body.username)
+   
 
     const user = new User({
-      username: req.body.email,
+      username: req.body.username,
       password: req.body.password
     });
+
+    // console.log(user);
 
     // req.login(user, function(err) {
     //   if (err) {
@@ -43,23 +44,43 @@ router.route("/")
 
 
     passport.authenticate("local", (err,user,info) => {
-      // res.redirect("/userHomePage?page=1&limit=3");
-      // res.redirect("localhost:4000/userhomepage/?");
-      console.log(req.user);
+      // console.log("User: " + user);
+      // console.log("Error: " + err);
+      console.log(req.headers);
 
-      if (err) throw err;
-      if(!user) res.send("No user exists");
+      if (err) {
+        throw err;
+      } 
+      if(!user) {
+        res.send("No user exists");
+      } 
       else {
         req.login(user, function(err) {
-          if (err) throw err; 
-          res.send("Successfully Authenticated");
-          console.log(req.user);
-    
+          if (err) {
+            throw err
+          }; 
+          
+          
+          res.setHeader("username", req.body.username);
+          res.setHeader("user_id", req.user._id)
+
+          // console.log(req.user)
+          
+          
+          res.send("Successfully Authenticated User");
+
+          // console.log(req);
+
+          // res.send(req.user)
+          // console.log(req.user);
+          // res.redirect("http://localhost:4000/userpageReact");
+          // res.redirect("/userHomePage?page=1&limit=3");
+
         });
       }
 
     })(req, res, next);
-   console.log(req.user)
+  //  console.log(req.user);
   });
 
 module.exports = router;

@@ -18,8 +18,10 @@ const followRouter = require("./APIs/following")
 const deleteTweet = require("./APIs/delete");
 const unfollowRouter = require("./APIs/unfollow");
 const PORT = process.env.PORT || 3000;
+// const buildDevLogger = require("./logger/devLogger.js");
 
-
+// logger.info("Text info");
+// logger.error("Text error");
 // console.log(new ObjectId)
 
 const app = express();
@@ -30,7 +32,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({
   origin: "http://localhost:4000", //  Location of the react app you're trying to connect to
-  credentials: true
+  credentials: true,
+  exposedHeaders: "user_id"
 }));
 
 
@@ -44,6 +47,7 @@ app.use(cookieParser("Our little secret."));
 
 app.use(passport.initialize());
 app.use(passport.session());
+require("./passportConfig")(passport);
 
 mongoose.connect("mongodb://localhost:27017/TwitterDB", {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);

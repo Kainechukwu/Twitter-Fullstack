@@ -28,14 +28,16 @@ function paginate(model) {
     }
 
     try {
-      const following = await Following.find({user_id: req.user.id}, "following_id").exec();
+      console.log(req.headers.user_id);
+      const following = await Following.find({user_id: req.headers.user_id}, "following_id").exec();
       console.log(following.map(obj => obj.following_id));
-      console.log(req.user.id);
-      results.resArray = await model.find({user_id: {$in: [req.user.id, ...following.map(obj => obj.following_id)]}}, "tweet").limit(limit).skip(startIndex);//.exec();
+      
+      results.resArray = await model.find({user_id: {$in: [req.headers.user_id, ...following.map(obj => obj.following_id)]}}, "tweet").limit(limit).skip(startIndex);//.exec();
       res.paginatedResults = results;
       next();
 
     } catch (err) {
+      console.log(err)
       res.status(500).json({
         message: err.message
       });

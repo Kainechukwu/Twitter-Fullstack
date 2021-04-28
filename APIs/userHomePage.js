@@ -8,32 +8,25 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const Tweet = require("../Models/tweets");
 const ObjectId = mongoose.Types.ObjectId;
 const paginate = require("../Middleware/pagination");
+// const cors = require("cors");
 
+// let mWare = [paginate(Tweet), cors()]
 
 
 router.route("/")
   .get(paginate(Tweet), function(req, res) {
-    if (req.isAuthenticated()) {
-      res.send("This is the user home page");
-      // console.log(req.query.page)
-      // // //
-      console.log(res.paginatedResults);
-      console.log(`Sucessful login`)
+    res.send(res.paginatedResults)
+    
+    // if (req.isAuthenticated()) {
+    //   res.send("hello")
+    //   // res.paginatedResults
+    //   console.log(res.paginatedResults);
+    //   console.log(`Sucessful login, welcome`)
 
-      // Tweet.find({}, function(err, foundTweets) {
-      //   if (err) {
-      //     console.log(err);
-      //   } else {
-      //     // foundTweets.forEach(function(tweet){
-      //     //   console.log(tweet);
-      //     // });
-      //     console.log("tweets are displayed here");
-      //   }
-      // });
-      // console.log(req.user.id);
-    } else {
-      res.send("You need to login");
-    }
+
+    // } else {
+    //   res.send("You need to login");
+    // }
   });
 
 

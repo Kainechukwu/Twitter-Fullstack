@@ -37,6 +37,8 @@ router.route("/")
         res.send("You need to reregister");
       } else {
         passport.authenticate("local")(req, res, function() {
+          res.send("Successfully Authenticated");
+
           res.redirect("/userHomePage?page=1&limit=3");
         })
       }
