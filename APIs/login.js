@@ -46,7 +46,8 @@ router.route("/")
     passport.authenticate("local", (err,user,info) => {
       // console.log("User: " + user);
       // console.log("Error: " + err);
-      console.log(req.headers);
+      console.log("reqHeaders" + req.headers);
+      console.log("loginuser: " + user)
 
       if (err) {
         throw err;
@@ -58,24 +59,21 @@ router.route("/")
         req.login(user, function(err) {
           if (err) {
             throw err
-          }; 
+          } else if (!err){
+            res.setHeader("username", req.body.username);
+            res.setHeader("user_id", req.user._id)
+  
+            // console.log("resHeader:" + res.headers)
+
+           
+
+            
+            
+            res.send("Successfully Authenticated User");
+          }
           
           
-          res.setHeader("username", req.body.username);
-          res.setHeader("user_id", req.user._id)
-
-          // console.log(req.user)
-          
-          
-          res.send("Successfully Authenticated User");
-
-          // console.log(req);
-
-          // res.send(req.user)
-          // console.log(req.user);
-          // res.redirect("http://localhost:4000/userpageReact");
-          // res.redirect("/userHomePage?page=1&limit=3");
-
+         
         });
       }
 

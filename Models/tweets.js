@@ -5,7 +5,9 @@ const year = new Date().getFullYear();
 const tweetSchema = new mongoose.Schema({
 
   user_id: String,
-    tweet: String
+    tweet: String,
+    // name: String,
+    // handle: String
     // ,
     // time : { type : Date, default: Date.now }
 
