@@ -18,6 +18,7 @@ const followRouter = require("./APIs/following")
 const deleteTweet = require("./APIs/delete");
 const unfollowRouter = require("./APIs/unfollow");
 const whoToFollowAPI = require("./APIs/whoToFollow");
+const imageUploadAPI = require("./APIs/imageUpload")
 const PORT = process.env.PORT || 3000;
 // const buildDevLogger = require("./logger/devLogger.js");
 
@@ -54,6 +55,7 @@ mongoose.connect("mongodb://localhost:27017/TwitterDB", {useNewUrlParser: true, 
 mongoose.set("useCreateIndex", true);
 
 
+
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
@@ -66,9 +68,10 @@ app.use("/userHomePage", userHomeRouter);
 app.use("/logout", logoutRouter);
 app.use("/follow", followRouter);
 app.use("/tweet", tweetAPI);
-app.use("/userHomePage/deleteTweet", deleteTweet);
+app.use("/deleteTweet", deleteTweet);
 app.use("/unfollow", unfollowRouter);
 app.use("/whoToFollow", whoToFollowAPI)
+app.use("/imageUpload", imageUploadAPI);
 
 app.get("/", function(req, res){
   res.send("This is the home page");

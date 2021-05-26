@@ -3,15 +3,15 @@ const router = express.Router();
 const Tweet = require("../Models/tweets");
 
 router.route("/")
-.post(function (req, res){
+.delete(function (req, res){
 
-  console.log(req.body._id);
+  console.log("tweetId", req.body._id);
 
   Tweet.findByIdAndRemove(req.body._id, function (err) {
     if (err) {
       console.log(err);
     } else {
-      console.log("Successfully deleted tweet");
+      res.send("Successfully deleted tweet");
     }
   })
 
