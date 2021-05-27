@@ -36,7 +36,8 @@ const userSchema = new mongoose.Schema({
     required: [true, "invalid year"],
     max: [Number(`${year - 18}`), "You must be of ages 18 and above"]
   },
-  password: String
+  password: String,
+  profileImageUrl: String
 
   // name: {
   //   firstName: String,
