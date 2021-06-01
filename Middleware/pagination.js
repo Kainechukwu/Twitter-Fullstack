@@ -48,25 +48,10 @@ function paginate(model) {
         }, "_id user_id tweet updatedAt"
       ).limit(limit).sort({ updatedAt: -1 }).skip(startIndex);//.exec();
 
-      // console.log("results: " + results.resArray)
 
-      // console.log("results: " + resArray)
-
-      // results.resArray.forEach((obj)=>{
-
-      //   for(let i = 0; i < userNames.length; i++){
-      //     if(obj.user_id === userNames[i]._id) {
-      //       obj["firstName"] = userNames[i].firstName;
-      //       obj["lastName"] = userNames[i].lastName;
-
-      //     }
-      //   }
-
-      // })
 
       function getMoment(str) {
-        // const time = moment(str).fromNow();
-        // return time
+      
         const time = moment(String(str)).fromNow();
         return time.slice(0, time.length - 3)
       }
@@ -104,7 +89,7 @@ function paginate(model) {
 
 
       results.resArray = test(resArray, userNames);
-      console.log("tweets: ", resArray);
+      // console.log("tweets: ", resArray);
       // console.log("usernames: " + userNames);
 
       // console.log("results: " + JSON.stringify(results.resArray));

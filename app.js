@@ -20,6 +20,14 @@ const unfollowRouter = require("./APIs/unfollow");
 const whoToFollowAPI = require("./APIs/whoToFollow");
 const imageUploadAPI = require("./APIs/imageUpload")
 const PORT = process.env.PORT || 3000;
+let path = require('path');
+global.appRoot = path.resolve(__dirname);
+
+// console.log("appRoot", global.appRoot);
+// console.log("this", globalThis.appRoot);
+// console.log(global)
+// console.log("how?")
+
 // const buildDevLogger = require("./logger/devLogger.js");
 
 // logger.info("Text info");
@@ -29,7 +37,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 const User = require("./Models/users.js");
 
-
+app.use(express.static("public"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({
