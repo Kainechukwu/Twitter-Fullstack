@@ -1,6 +1,7 @@
 const Following = require("../Models/following");
 const User = require("../Models/users.js");
 const moment = require('moment');
+const download = require("downloadjs");
 
 
 function paginate(model) {
@@ -45,13 +46,13 @@ function paginate(model) {
           user_id: {
             $in: [req.headers.user_id, ...following.map(obj => obj.following_id)]
           }
-        }, "_id user_id tweet updatedAt"
+        }, "_id user_id tweet tweetImage updatedAt"
       ).limit(limit).sort({ updatedAt: -1 }).skip(startIndex);//.exec();
 
 
 
       function getMoment(str) {
-      
+
         const time = moment(String(str)).fromNow();
         return time.slice(0, time.length - 3)
       }
@@ -66,10 +67,31 @@ function paginate(model) {
         return result.map((obj) => {
           let value = {};
 
+          // if (obj.tweetImage) {
+
+
+          //   const file = appRoot + "\\" + obj.tweetImage//`${appRoot}${doc.profileImageUrl}`;
+          //   // console.log("file ", file)
+
+          //   const tweetImage = download(file, function (err) {
+          //     if (err) {
+          //       console.log(err);
+          //     }
+          //     if (!err) {
+          //       // console.log("successfully downloaded file")
+          //     }
+          //   });
+
+
+          //   value['tweetImage'] = tweetImage;
+
+          // }
+
 
           value['_id'] = obj._id;
           value['user_id'] = obj.user_id;
           value['tweet'] = obj.tweet;
+          value['tweetImage'] = obj.tweetImage;
           value["time"] = getMoment(obj.updatedAt);
           // console.log("mapping res array");
           for (let i = 0; i < userNames.length; i++) {

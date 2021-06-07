@@ -19,6 +19,7 @@ const deleteTweet = require("./APIs/delete");
 const unfollowRouter = require("./APIs/unfollow");
 const whoToFollowAPI = require("./APIs/whoToFollow");
 const imageUploadAPI = require("./APIs/imageUpload")
+const imagesAPI = require("./APIs/images");
 const PORT = process.env.PORT || 3000;
 let path = require('path');
 global.appRoot = path.resolve(__dirname);
@@ -80,6 +81,7 @@ app.use("/deleteTweet", deleteTweet);
 app.use("/unfollow", unfollowRouter);
 app.use("/whoToFollow", whoToFollowAPI)
 app.use("/imageUpload", imageUploadAPI);
+app.use("/images", imagesAPI);
 
 app.get("/", function(req, res){
   res.send("This is the home page");
