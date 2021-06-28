@@ -42,63 +42,69 @@ router.route("/")
     // console.log("body: ", req.body);
     console.log("text: ", req.body.data);
     console.log("files: ", req.file);
-    // console.log("TweetImgPath2: ", req.body.file);
-
-
-    // upload(req, res, function (err) {
-    //   if (err instanceof multer.MulterError) {
-    //     console.log("err:", err)
-
-    //     return res.status(500).json(err)
-    //   } else if (err) {
-    //     console.log("err:", err)
-    //     return res.status(500).json(err)
-
-
-    //   }
-    //   console.log("TweetImgPath1: ", req.body.data);
-    //   console.log("TweetImgPath2: ", req.body.files);
-
-    //   // console.log(req.headers.user_id);
-
-
-
-    //   // return res.status(200).send(req.file.path)
-
-    // })
-
-    // console.log("TweetImgPath2: ", req.file.path)
-    // const userNames = await  User.findById(req.headers.user_id, "firstName lastName");
-    // console.log("userNames" + userNames);
-
-
 
 
     //---------------tweet--------------------
+    if (req.file === undefined){
+      const tweet = new Tweet({
+        user_id: req.headers.user_id,
+        tweet: req.body.data,
+        // tweetImage: req.file.path
+        // name: userNames.firstName,
+        // handle: "@" + userNames.lastName
+        // ,
+        // time: time //find how long ago a tweet was made
+      });
+
+      tweet.save(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          // res.redirect("/userHomePage?page=1&limit=3");
+          console.log("Successfully saved tweet");
+          res.status(200).send("Tweet Successful");
+        }
+      });
+
+    } else {
 
 
-    const tweet = new Tweet({
-      user_id: req.headers.user_id,
-      tweet: req.body.data,
-      tweetImage: req.file.path
-      // name: userNames.firstName,
-      // handle: "@" + userNames.lastName
-      // ,
-      // time: time //find how long ago a tweet was made
-    });
+      const tweet = new Tweet({
+        user_id: req.headers.user_id,
+        tweet: req.body.data,
+        tweetImage: req.file.path
+        // name: userNames.firstName,
+        // handle: "@" + userNames.lastName
+        // ,
+        // time: time //find how long ago a tweet was made
+      });
+
+      tweet.save(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          // res.redirect("/userHomePage?page=1&limit=3");
+          console.log("Successfully saved tweet");
+          res.status(200).send("Tweet Successful");
+        }
+      });
+
+    }
+
+
 
     // console.log(req.headers.user_id);
     // console.log(req.body.tweet);
 
-    tweet.save(function(err) {
-      if (err) {
-        console.log(err);
-      } else {
-        // res.redirect("/userHomePage?page=1&limit=3");
-        console.log("Successfully saved tweet");
-        res.status(200).send("Tweet Successful");
-      }
-    });
+    // tweet.save(function(err) {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     // res.redirect("/userHomePage?page=1&limit=3");
+    //     console.log("Successfully saved tweet");
+    //     res.status(200).send("Tweet Successful");
+    //   }
+    // });
 
     // console.log("req:", req.body)
 
